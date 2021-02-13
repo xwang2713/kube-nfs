@@ -1,0 +1,22 @@
+# Default values for hpcc-nfs.
+namespace: default
+
+sharedPath: /data/shared/w
+
+server: 10.246.30.235
+
+sharedStorage:
+  size: 2Gi 
+  #existingClaim: myexistingclaim
+
+# NB: the sum of the size's below should be <= the sharedStorage size
+
+dllStorage:
+  size: 512Mi
+
+daliStorage:
+  size: 512Mi
+
+dataStorage:
+  size: 1Gi
+

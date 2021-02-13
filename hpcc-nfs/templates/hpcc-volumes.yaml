@@ -1,0 +1,96 @@
+{{- $serverName := (include "hpcc-nfs.fullname" $) }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ printf "dll-%s-pv" (include "hpcc-nfs.fullname" $) }}
+  labels:
+    storage-tier: dll
+spec:
+  capacity:
+    storage: {{ .Values.dllStorage.size }}
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  nfs:
+    server: {{  .Values.server }}
+    path: {{  .Values.sharedPath }}/dlls
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ printf "dll-%s-pvc" (include "hpcc-nfs.fullname" $) }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: {{ .Values.dllStorage.size }}
+  selector:
+    matchLabels:
+      storage-tier: dll
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ printf "data-%s-pv" (include "hpcc-nfs.fullname" $) }}
+  labels:
+    storage-tier: data
+spec:
+  capacity:
+    storage: {{ .Values.dataStorage.size }}
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  nfs:
+    server: {{  .Values.server }}
+    path: {{  .Values.sharedPath }}/data
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ printf "data-%s-pvc" (include "hpcc-nfs.fullname" $) }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: {{ .Values.dataStorage.size }}
+  selector:
+    matchLabels:
+      storage-tier: data
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ printf "dali-%s-pv" (include "hpcc-nfs.fullname" $) }}
+  labels:
+    storage-tier: dali
+spec:
+  capacity:
+    storage: {{ .Values.daliStorage.size }}
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  nfs:
+    server: {{  .Values.server }}
+    path: {{  .Values.sharedPath }}/dali
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ printf "dali-%s-pvc" (include "hpcc-nfs.fullname" $) }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: {{ .Values.daliStorage.size }}
+  selector:
+    matchLabels:
+      storage-tier: dali
